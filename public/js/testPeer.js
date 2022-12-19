@@ -1,5 +1,19 @@
+document.getElementById('record-entire-conference').style.display = 'none';
+document.getElementById('recording-status').style.display = 'none';
+document.getElementById('btn-stop-recording').style.display = 'none';
+
+function hideElemtents(){
+    document.getElementById('open-room').style.display = 'none';
+    document.getElementById('room-id').style.display = 'none';
+    document.getElementById('join-room').style.display = 'none';
+    //document.getElementById('join-room').style.display = 'none';
+
+}
+
 document.getElementById('open-room').onclick = function() {
     disableInputButtons();
+    hideElemtents();
+    document.getElementById('open-room').style.display = 'none';
     connection.open(document.getElementById('room-id').value, function(isRoomOpened, roomid, error) {
         if(isRoomOpened === true) {
           showRoomURL(connection.sessionid);
@@ -17,6 +31,7 @@ document.getElementById('open-room').onclick = function() {
 
 document.getElementById('join-room').onclick = function() {
     disableInputButtons();
+    hideElemtents();
     connection.join(document.getElementById('room-id').value, function(isJoinedRoom, roomid, error) {
       if (error) {
             disableInputButtons(true);
@@ -29,19 +44,19 @@ document.getElementById('join-room').onclick = function() {
     });
 };
 
-document.getElementById('open-or-join-room').onclick = function() {
-    disableInputButtons();
-    connection.openOrJoin(document.getElementById('room-id').value, function(isRoomExist, roomid, error) {
-        if(error) {
-          disableInputButtons(true);
-          alert(error);
-        }
-        else if (connection.isInitiator === true) {
-            // if room doesn't exist, it means that current user will create the room
-            showRoomURL(roomid);
-        }
-    });
-};
+// document.getElementById('open-or-join-room').onclick = function() {
+//     disableInputButtons();
+//     connection.openOrJoin(document.getElementById('room-id').value, function(isRoomExist, roomid, error) {
+//         if(error) {
+//           disableInputButtons(true);
+//           alert(error);
+//         }
+//         else if (connection.isInitiator === true) {
+//             // if room doesn't exist, it means that current user will create the room
+//             showRoomURL(roomid);
+//         }
+//     });
+// };
 
 // ......................................................
 // ..................RTCMultiConnection Code.............
@@ -203,7 +218,7 @@ connection.onstream = function(event) {
     // to keep room-id in cache
     localStorage.setItem(connection.socketMessageEvent, connection.sessionid);
 
-    chkRecordConference.parentNode.style.display = 'none';
+   // chkRecordConference.parentNode.style.display = 'none';
 
     if(chkRecordConference.checked === true) {
       btnStopRecording.style.display = 'inline-block';
@@ -285,7 +300,7 @@ connection.onMediaError = function(e) {
 function disableInputButtons(enable) {
     document.getElementById('room-id').onkeyup();
 
-    document.getElementById('open-or-join-room').disabled = !enable;
+ //   document.getElementById('open-or-join-room').disabled = !enable;
     document.getElementById('open-room').disabled = !enable;
     document.getElementById('join-room').disabled = !enable;
     document.getElementById('room-id').disabled = !enable;
