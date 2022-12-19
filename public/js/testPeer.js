@@ -2,7 +2,7 @@ document.getElementById('record-entire-conference').style.display = 'none';
 document.getElementById('recording-status').style.display = 'none';
 document.getElementById('btn-stop-recording').style.display = 'none';
 
-function hideElemtents(){
+function hideElements(){
     document.getElementById('open-room').style.display = 'none';
     document.getElementById('room-id').style.display = 'none';
     document.getElementById('join-room').style.display = 'none';
@@ -12,7 +12,7 @@ function hideElemtents(){
 
 document.getElementById('open-room').onclick = function() {
     disableInputButtons();
-    hideElemtents();
+    hideElements();
     document.getElementById('open-room').style.display = 'none';
     connection.open(document.getElementById('room-id').value, function(isRoomOpened, roomid, error) {
         if(isRoomOpened === true) {
@@ -31,7 +31,7 @@ document.getElementById('open-room').onclick = function() {
 
 document.getElementById('join-room').onclick = function() {
     disableInputButtons();
-    hideElemtents();
+    hideElements();
     connection.join(document.getElementById('room-id').value, function(isJoinedRoom, roomid, error) {
       if (error) {
             disableInputButtons(true);
@@ -379,6 +379,7 @@ if (roomid && roomid.length) {
     })();
 
     disableInputButtons();
+    hideElements();
 }
 
 // detect 2G
